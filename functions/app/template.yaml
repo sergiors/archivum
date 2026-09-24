@@ -1,0 +1,5 @@
+services:
+  - build: Dockerfile
+    port: 80
+    replicas: 2
+    host: archivum.sergio.run

@@ -8,7 +8,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import type { EmailMessage, EmailThread } from "@/lib/data";
-import { getAttachment, SOURCES } from "@/lib/data";
+import { getAttachment, getSource } from "@/lib/data";
 import { formatLongDate, formatTime } from "@/lib/format";
 
 function EmailBody({ message }: { message: EmailMessage }) {
@@ -77,7 +77,7 @@ function MessageHeader({ message }: { message: EmailMessage }) {
  * There are no reply, forward or action controls — only the record itself.
  */
 export function EmailReader({ thread }: { thread: EmailThread }) {
-  const source = SOURCES[thread.source];
+  const source = getSource(thread.source)!;
   const latestIndex = thread.messages.length - 1;
   const latest = thread.messages[latestIndex];
   const earlier = thread.messages.slice(0, latestIndex);

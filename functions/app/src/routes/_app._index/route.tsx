@@ -1,11 +1,12 @@
-import { DEFAULT_SOURCE_ID, SOURCES } from "@/lib/data";
-import { ArchiveWorkspace } from "@/components/archive-workspace";
+import { redirect } from "react-router";
+
+import { DEFAULT_SOURCE_ID } from "@/lib/data";
 
 /**
- * Archive root. There is no mixed feed: the archive opens into one workspace.
- * This build always shows the default source and its newest thread, so the
- * screen is presentational and reads only from the local mock archive.
+ * Archive root. There is no mixed feed: every URL names the source that scopes
+ * the workspace, so `/` hands off to the default source rather than rendering
+ * a second copy of it.
  */
-export default function ArchiveIndex() {
-  return <ArchiveWorkspace source={SOURCES[DEFAULT_SOURCE_ID]} />;
+export function loader() {
+  return redirect(`/${DEFAULT_SOURCE_ID}`);
 }

@@ -7,8 +7,8 @@ import { formatFileSize } from "@/lib/format";
 
 /**
  * Attachment entry shown inside a reader. The archive can describe a file but
- * cannot open or download it, so this is a record; the link is presentational
- * and leads back to the representative workspace.
+ * cannot open or download it, so this links to the source's attachments
+ * section — the record's permanent place in the archive.
  */
 export function ReaderAttachment({
   attachment,
@@ -20,7 +20,7 @@ export function ReaderAttachment({
   return (
     <li>
       <Link
-        to="/"
+        to={`/${attachment.source}/attachments`}
         aria-label={`${attachment.name}, ${ATTACHMENT_KIND_LABEL[attachment.kind]}, ${formatFileSize(attachment.size)}`}
         className={cn(
           "flex items-center gap-3 rounded-lg border border-border bg-card px-3 py-2.5 transition-colors hover:bg-accent focus-visible:bg-accent",

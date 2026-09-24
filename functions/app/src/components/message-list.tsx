@@ -1,4 +1,5 @@
 import { Paperclip } from "lucide-react";
+import { Link, useSearchParams } from "react-router";
 
 import { PersonAvatar } from "@/components/person-avatar";
 import { DayDivider } from "@/components/day-list";
@@ -8,9 +9,8 @@ import { formatShortDate, groupByDay } from "@/lib/format";
 
 /**
  * The master column of a message workspace: one row per thread, newest first,
- * grouped by day. Rows are records, not controls — there is no selection
- * behaviour, so the representative thread is marked with `data-active` and an
- * `sr-only` note rather than a link or button.
+ * grouped by day. Each row is a link that puts its thread id in `?thread=`,
+ * so selection is shareable URL state rather than local component state.
  */
 export function MessageList({
   threads,
@@ -44,22 +44,27 @@ export function MessageList({
 }
 
 function MessageListRow({ thread, active }: { thread: Thread; active: boolean }) {
+  const [searchParams] = useSearchParams();
   const isWhatsApp = thread.type === "whatsapp";
   const sender = threadSender(thread);
   const files = attachmentCount(thread);
   const replyCount = thread.type === "email" ? thread.messages.length : 0;
+  const nextParams = new URLSearchParams(searchParams);
+  nextParams.set("thread", thread.id);
 
   return (
-    <div
+    <Link
+      to={`?${nextParams.toString()}`}
       data-active={active || undefined}
+      aria-current={active ? "true" : undefined}
       className={cn(
-        "flex gap-3 border-b border-border px-4 py-3",
-        active ? "bg-accent" : "bg-card",
+        "flex gap-3 border-b border-border px-4 py-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40",
+        active ? "bg-accent" : "bg-card hover:bg-accent/50",
       )}
     >
       <PersonAvatar name={sender.name} className="mt-0.5" />
-      <div className="min-w-0 flex-1">
-        <div className="flex items-baseline gap-2">
+      <span className="min-w-0 flex-1">
+        <span className="flex items-baseline gap-2">
           <span className="truncate text-[12.5px] font-semibold text-foreground">
             {active && <span className="sr-only">Currently reading: </span>}
             {threadTitle(thread)}
@@ -70,14 +75,14 @@ function MessageListRow({ thread, active }: { thread: Thread; active: boolean })
           >
             {formatShortDate(thread.date)}
           </time>
-        </div>
+        </span>
 
-        <p className="mt-1 line-clamp-2 text-[11.5px] leading-4.5 text-muted-foreground">
+        <span className="mt-1 line-clamp-2 block text-[11.5px] leading-4.5 text-muted-foreground">
           {thread.preview}
-        </p>
+        </span>
 
         {(replyCount > 1 || files > 0 || (isWhatsApp && thread.isGroup)) && (
-          <div className="mt-1.5 flex items-center gap-3 text-[10.5px] text-muted-foreground">
+          <span className="mt-1.5 flex items-center gap-3 text-[10.5px] text-muted-foreground">
             {isWhatsApp && thread.isGroup && (
               <span>{thread.participants.length} participants</span>
             )}
@@ -88,9 +93,9 @@ function MessageListRow({ thread, active }: { thread: Thread; active: boolean })
                 {files}
               </span>
             )}
-          </div>
+          </span>
         )}
-      </div>
-    </div>
+      </span>
+    </Link>
   );
 }

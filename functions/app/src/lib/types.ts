@@ -12,12 +12,8 @@
 
 export type SourceType = "email" | "whatsapp";
 
-export type SourceId =
-  | "personal"
-  | "work"
-  | "old-gmail"
-  | "personal-whatsapp"
-  | "brazil-whatsapp";
+/** Opaque id for a source; routes open a workspace via `/:sourceId`. */
+export type SourceId = string;
 
 /** A captured mailbox or chat account that scopes the workspace. */
 export interface Source {
@@ -128,4 +124,4 @@ export type Thread = EmailThread | Conversation;
 
 /** The kind of section a source opens into. */
 export type ThreadSection = "emails" | "conversations";
-export type SectionSlug = ThreadSection | "attachments" | "search";
+export type SectionSlug = ThreadSection | "attachments";

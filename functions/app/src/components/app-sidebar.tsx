@@ -1,5 +1,5 @@
 import { Archive } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 
 import { SourceTypeIcon } from "@/components/source-icon";
 import {
@@ -30,11 +30,12 @@ const GROUPS: { type: SourceType; label: string }[] = [
 
 /**
  * Static archive sidebar. Sources are grouped by transport so the archive reads
- * as a small set of distinct workspaces rather than one feed. The default
- * source is shown as the current workspace; links exist for semantics only and
- * every one opens the same representative screen.
+ * as a small set of distinct workspaces rather than one feed. Each source links
+ * to its own workspace URL; the active source follows `:sourceId`.
  */
 export function AppSidebar() {
+  const { sourceId } = useParams();
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -70,7 +71,10 @@ export function AppSidebar() {
                   <SourceItem
                     key={source.id}
                     source={source}
-                    active={source.id === DEFAULT_SOURCE_ID}
+                    active={
+                      source.id === sourceId ||
+                      (source.id === DEFAULT_SOURCE_ID && !sourceId)
+                    }
                   />
                 ))}
               </SidebarMenu>
@@ -90,7 +94,7 @@ function SourceItem({ source, active }: { source: Source; active: boolean }) {
       <SidebarMenuButton
         isActive={active}
         tooltip={source.label}
-        render={<Link to="/" />}
+        render={<Link to={`/${source.id}`} />}
         className="h-auto py-2 pr-9"
       >
         <SourceTypeIcon

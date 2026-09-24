@@ -39,65 +39,57 @@ export type {
 /* Sources                                                                     */
 /* -------------------------------------------------------------------------- */
 
-export const SOURCES: Record<SourceId, Source> = {
-  personal: {
-    id: "personal",
+/** Sources in the exact order they appear in the sidebar. */
+export const SOURCES: Source[] = [
+  {
+    id: "src_a7f39d2e",
     type: "email",
     label: "Personal Email",
     account: "osergiosiqueira@ferreira.studio",
     provider: "Gmail",
     exportedAt: "2026-09-23T17:30:00",
   },
-  work: {
-    id: "work",
+  {
+    id: "src_c41b8e07",
     type: "email",
     label: "Work Email",
     account: "s.ferreira@lumen.io",
     provider: "Gmail",
     exportedAt: "2026-09-22T09:00:00",
   },
-  "old-gmail": {
-    id: "old-gmail",
+  {
+    id: "src_9e2d6f14",
     type: "email",
     label: "Old Gmail",
     account: "sergio.rafael@gmail.com",
     provider: "Gmail",
     exportedAt: "2026-09-21T08:15:00",
   },
-  "personal-whatsapp": {
-    id: "personal-whatsapp",
+  {
+    id: "src_5b8a3c90",
     type: "whatsapp",
     label: "Personal WhatsApp",
     account: "+351 91 ••• 0421",
     provider: "WhatsApp",
     exportedAt: "2026-09-23T21:00:00",
   },
-  "brazil-whatsapp": {
-    id: "brazil-whatsapp",
+  {
+    id: "src_f16e7d45",
     type: "whatsapp",
     label: "Brazil WhatsApp",
     account: "+55 11 •••• 8321",
     provider: "WhatsApp",
     exportedAt: "2026-09-22T20:40:00",
   },
-};
-
-/** Sources in the exact order they appear in the sidebar. */
-export const SOURCE_ORDER: SourceId[] = [
-  "personal",
-  "work",
-  "old-gmail",
-  "personal-whatsapp",
-  "brazil-whatsapp",
 ];
 
-export const SOURCE_LIST: Source[] = SOURCE_ORDER.map((id) => SOURCES[id]);
+export const SOURCE_LIST: Source[] = SOURCES;
 
-/** The workspace the archive opens into when no source is in the URL. */
-export const DEFAULT_SOURCE_ID: SourceId = "personal";
+/** The source the archive opens into when the URL names none (redirect target). */
+export const DEFAULT_SOURCE_ID: SourceId = SOURCES[0].id;
 
 export function getSource(id: string | undefined | null): Source | undefined {
-  return id && id in SOURCES ? SOURCES[id as SourceId] : undefined;
+  return SOURCES.find((source) => source.id === id);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -111,7 +103,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "pdf",
     size: 486_233,
     date: "2026-09-23T11:42:00",
-    source: "personal",
+    source: "src_a7f39d2e",
     threadId: "msg-lease-renewal",
     from: { name: "Helena Marques", handle: "helena@marquesadvogados.pt" },
     origin: "Re: Studio lease — renewal terms",
@@ -130,7 +122,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "archive",
     size: 18_940_416,
     date: "2026-09-22T19:05:00",
-    source: "personal",
+    source: "src_a7f39d2e",
     threadId: "msg-tax-accountant",
     from: { name: "Sérgio Ferreira", handle: "sergio@ferreira.studio" },
     origin: "Forwarded to accountant",
@@ -149,7 +141,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "pdf",
     size: 7_312_004,
     date: "2026-09-22T10:18:00",
-    source: "work",
+    source: "src_c41b8e07",
     threadId: "msg-brand-handoff",
     from: { name: "Marta Oliveira", handle: "marta@northstudio.co" },
     origin: "Archivum — visual identity handoff",
@@ -168,7 +160,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "deck",
     size: 3_204_887,
     date: "2026-09-21T15:37:00",
-    source: "work",
+    source: "src_c41b8e07",
     threadId: "msg-archive-review",
     from: { name: "Rui Bettencourt", handle: "rui.bettencourt@lumen.io" },
     origin: "Q3 review deck",
@@ -187,7 +179,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "image",
     size: 2_688_120,
     date: "2026-09-19T13:22:00",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     threadId: "msg-wa-contactsheet",
     from: { name: "Inês Costa", handle: "+351 96 ••• 1188" },
     origin: "Rua do Almada workshop",
@@ -206,7 +198,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "pdf",
     size: 214_772,
     date: "2026-09-18T09:48:00",
-    source: "work",
+    source: "src_c41b8e07",
     threadId: "msg-invoice",
     from: { name: "Marta Oliveira", handle: "marta@northstudio.co" },
     origin: "Invoice 0142",
@@ -225,7 +217,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "spreadsheet",
     size: 96_512,
     date: "2026-09-18T08:02:00",
-    source: "personal",
+    source: "src_a7f39d2e",
     threadId: "msg-sensor-alert",
     from: { name: "Building Systems", handle: "alerts@portacoop.pt" },
     origin: "Monthly environment report",
@@ -244,7 +236,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "pdf",
     size: 1_144_320,
     date: "2026-09-15T17:11:00",
-    source: "work",
+    source: "src_c41b8e07",
     threadId: "msg-press",
     from: { name: "Diário Lusitano", handle: "redacao@lusitano.pt" },
     origin: "Press clipping — 'The quiet archive'",
@@ -263,7 +255,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "document",
     size: 5_640_192,
     date: "2026-09-12T12:30:00",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     threadId: "msg-wa-floorplan",
     from: { name: "Tomás Reis", handle: "+351 91 ••• 5520" },
     origin: "Floorplan revision C",
@@ -282,7 +274,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "other",
     size: 842_137,
     date: "2026-09-08T21:54:00",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     threadId: "msg-wa-late-thought",
     from: { name: "Inês Costa", handle: "+351 96 ••• 1188" },
     origin: "Late thought on the archive",
@@ -301,7 +293,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "document",
     size: 12_288,
     date: "2026-09-08T07:20:00",
-    source: "work",
+    source: "src_c41b8e07",
     threadId: "msg-migration-export",
     from: { name: "Rui Bettencourt", handle: "rui.bettencourt@lumen.io" },
     origin: "Migration export — instructions",
@@ -320,7 +312,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "pdf",
     size: 88_064,
     date: "2026-09-08T16:44:00",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     threadId: "msg-wa-weekend",
     from: { name: "Sérgio Ferreira", handle: "+351 91 ••• 0421" },
     origin: "Receipt — oak bookcase",
@@ -339,7 +331,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "document",
     size: 9_216,
     date: "2026-08-30T22:07:00",
-    source: "personal",
+    source: "src_a7f39d2e",
     threadId: "msg-reading-list",
     from: { name: "Sérgio Ferreira", handle: "sergio@ferreira.studio" },
     origin: "Notes to self",
@@ -358,7 +350,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "image",
     size: 4_112_400,
     date: "2026-08-30T18:15:00",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     threadId: "msg-wa-scans",
     from: { name: "Inês Costa", handle: "+351 96 ••• 1188" },
     origin: "Family scans — batch 2",
@@ -377,7 +369,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "pdf",
     size: 1_820_160,
     date: "2026-09-20T14:12:00",
-    source: "old-gmail",
+    source: "src_9e2d6f14",
     threadId: "msg-studio-show",
     from: { name: "Lúcia Antunes", handle: "programa@galeriatejo.pt" },
     origin: "Spring programme — room layout",
@@ -396,7 +388,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "pdf",
     size: 164_864,
     date: "2026-09-11T16:20:00",
-    source: "old-gmail",
+    source: "src_9e2d6f14",
     threadId: "msg-studio-rebind",
     from: { name: "Otília Braga", handle: "oficina@encadernacao.pt" },
     origin: "Rebinding the 1998–2004 volumes",
@@ -415,7 +407,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "pdf",
     size: 9_437_184,
     date: "2026-09-17T11:05:00",
-    source: "brazil-whatsapp",
+    source: "src_f16e7d45",
     threadId: "msg-wa-print",
     from: { name: "Gráfica Norte", handle: "+351 22 ••• 7740" },
     origin: "Press check — colour proofs",
@@ -434,7 +426,7 @@ export const ATTACHMENTS: Attachment[] = [
     kind: "pdf",
     size: 121_344,
     date: "2026-09-14T14:20:00",
-    source: "brazil-whatsapp",
+    source: "src_f16e7d45",
     threadId: "msg-wa-delivery",
     from: { name: "Miguel Santos", handle: "+351 93 ••• 6612" },
     origin: "Delivery — archive shelving",
@@ -496,7 +488,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-lease-renewal",
-    source: "personal",
+    source: "src_a7f39d2e",
     subject: "Studio lease — renewal terms",
     participants: [HELENA, SERGIO_PERSONAL],
     date: "2026-09-23T11:42:00",
@@ -548,7 +540,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-brand-handoff",
-    source: "work",
+    source: "src_c41b8e07",
     subject: "Archivum — visual identity handoff",
     participants: [MARTA, SERGIO_WORK],
     date: "2026-09-22T10:18:00",
@@ -612,7 +604,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-archive-review",
-    source: "work",
+    source: "src_c41b8e07",
     subject: "Q3 archive migration review",
     participants: [RUI, SERGIO_WORK],
     date: "2026-09-21T15:37:00",
@@ -663,7 +655,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-tax-accountant",
-    source: "personal",
+    source: "src_a7f39d2e",
     subject: "2026 supporting documents",
     participants: [SERGIO_PERSONAL],
     date: "2026-09-22T19:05:00",
@@ -690,7 +682,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-studio-show",
-    source: "old-gmail",
+    source: "src_9e2d6f14",
     subject: "Spring programme — submission received",
     participants: [LUCIA, SERGIO_OLD_GMAIL],
     date: "2026-09-20T14:12:00",
@@ -742,7 +734,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-studio-rebind",
-    source: "old-gmail",
+    source: "src_9e2d6f14",
     subject: "Rebinding the 1998–2004 volumes",
     participants: [OTILIA, SERGIO_OLD_GMAIL],
     date: "2026-09-11T16:20:00",
@@ -781,7 +773,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-invoice",
-    source: "work",
+    source: "src_c41b8e07",
     subject: "Invoice 0142",
     participants: [MARTA, SERGIO_WORK],
     date: "2026-09-18T09:48:00",
@@ -807,7 +799,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-sensor-alert",
-    source: "personal",
+    source: "src_a7f39d2e",
     subject: "Monthly environment report — storage room",
     participants: [
       { name: "Building Systems", handle: "alerts@portacoop.pt" },
@@ -835,7 +827,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-press",
-    source: "work",
+    source: "src_c41b8e07",
     subject: "Press clipping — “The quiet archive”",
     participants: [
       { name: "Diário Lusitano", handle: "redacao@lusitano.pt" },
@@ -875,7 +867,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-migration-export",
-    source: "work",
+    source: "src_c41b8e07",
     subject: "Migration export — instructions",
     participants: [RUI, SERGIO_WORK],
     date: "2026-09-08T07:20:00",
@@ -913,7 +905,7 @@ export const EMAIL_THREADS: EmailThread[] = [
   {
     type: "email",
     id: "msg-reading-list",
-    source: "personal",
+    source: "src_a7f39d2e",
     subject: "Reading list — end of August",
     participants: [SERGIO_PERSONAL],
     date: "2026-08-30T22:07:00",
@@ -992,7 +984,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-migration",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     contact: INES,
     isGroup: false,
     participants: ["Inês Costa", "Sérgio Ferreira"],
@@ -1026,7 +1018,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-thanks",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     contact: HELENA,
     isGroup: false,
     participants: ["Helena Marques", "Sérgio Ferreira"],
@@ -1049,7 +1041,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-rain",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     contact: INES,
     isGroup: false,
     participants: ["Inês Costa", "Sérgio Ferreira"],
@@ -1069,7 +1061,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-contactsheet",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     contact: INES,
     isGroup: false,
     participants: ["Inês Costa", "Sérgio Ferreira"],
@@ -1098,7 +1090,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-floorplan",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     contact: TOMAS,
     isGroup: false,
     participants: ["Tomás Reis", "Sérgio Ferreira"],
@@ -1127,7 +1119,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-late-thought",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     contact: INES,
     isGroup: false,
     participants: ["Inês Costa", "Sérgio Ferreira"],
@@ -1152,7 +1144,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-weekend",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     contact: TOMAS,
     isGroup: false,
     participants: ["Tomás Reis", "Sérgio Ferreira"],
@@ -1181,7 +1173,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-scans",
-    source: "personal-whatsapp",
+    source: "src_5b8a3c90",
     contact: INES,
     isGroup: false,
     participants: ["Inês Costa", "Sérgio Ferreira"],
@@ -1214,7 +1206,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-print",
-    source: "brazil-whatsapp",
+    source: "src_f16e7d45",
     contact: { name: "Gráfica Norte", handle: "+351 22 ••• 7740" },
     isGroup: false,
     participants: ["Gráfica Norte", "Sérgio Ferreira"],
@@ -1243,7 +1235,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-delivery",
-    source: "brazil-whatsapp",
+    source: "src_f16e7d45",
     contact: { name: "Miguel Santos", handle: "+351 93 ••• 6612" },
     isGroup: false,
     participants: ["Miguel Santos", "Sérgio Ferreira"],
@@ -1269,7 +1261,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-studio-move",
-    source: "brazil-whatsapp",
+    source: "src_f16e7d45",
     contact: { name: "Estúdio Almada", handle: "Group · 3 participants" },
     isGroup: true,
     participants: ["Inês Costa", "Tomás Reis", "Sérgio Ferreira"],
@@ -1297,7 +1289,7 @@ export const CONVERSATIONS: Conversation[] = [
   {
     type: "whatsapp",
     id: "msg-wa-shelving",
-    source: "brazil-whatsapp",
+    source: "src_f16e7d45",
     contact: TOMAS,
     isGroup: false,
     participants: ["Tomás Reis", "Sérgio Ferreira"],
@@ -1360,6 +1352,58 @@ export function countThreadsForSource(sourceId: SourceId): number {
 
 export function countAttachmentsForSource(sourceId: SourceId): number {
   return attachmentsForSource(sourceId).length;
+}
+
+/** Case-insensitive substring match; empty query matches everything. */
+function matchesQuery(query: string, ...fields: string[]): boolean {
+  const needle = query.trim().toLowerCase();
+  if (!needle) return true;
+  return fields.some((field) => field.toLowerCase().includes(needle));
+}
+
+/** Keep threads whose title, people, labels or body text hit the query. */
+export function filterThreads(threads: Thread[], query: string): Thread[] {
+  if (!query.trim()) return threads;
+
+  return threads.filter((thread) => {
+    if (thread.type === "email") {
+      const people = thread.participants.flatMap((p) => [p.name, p.handle]);
+      const body = thread.messages.flatMap((m) => m.body);
+      return (
+        matchesQuery(query, thread.subject, thread.preview, ...thread.labels, ...people, ...body)
+      );
+    }
+
+    return matchesQuery(
+      query,
+      thread.contact.name,
+      thread.contact.handle,
+      thread.preview,
+      ...thread.labels,
+      ...thread.participants,
+      ...thread.entries.flatMap((entry) => entry.text),
+    );
+  });
+}
+
+/** Keep attachments whose name, origin, people, tags or summary hit the query. */
+export function filterAttachments(
+  attachments: Attachment[],
+  query: string,
+): Attachment[] {
+  if (!query.trim()) return attachments;
+
+  return attachments.filter((attachment) =>
+    matchesQuery(
+      query,
+      attachment.name,
+      attachment.origin,
+      attachment.summary,
+      attachment.from.name,
+      attachment.from.handle,
+      ...attachment.tags,
+    ),
+  );
 }
 
 export function getAttachment(id: string): Attachment | undefined {

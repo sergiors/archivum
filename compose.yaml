@@ -46,7 +46,6 @@ services:
       retries: 10
       start_period: 2s
 
-
   redis:
     image: redis:latest
     container_name: redis
@@ -57,6 +56,31 @@ services:
     volumes:
       - redis-data:/data
 
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    restart: unless-stopped
+
+    command:
+      - --config=/etc/otelcol-contrib/config.yaml
+
+    volumes:
+      - ./otel-collector.yaml:/etc/otelcol-contrib/config.yaml:ro
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=90d
+
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+
 
   relay:
     image: ghcr.io/sergiors/relay:latest
@@ -66,15 +90,25 @@ services:
     depends_on:
       socket-proxy:
         condition: service_healthy
+      otel-collector:
+        condition: service_started
 
     environment:
       REDIS_URI: redis:6379
       REDIS_STREAM: events
       REDIS_GROUP: archivum
-      LOG_LEVEL: DEBUG
-      DOCKER_HOST: tcp://socket-proxy:2375
+
       TRAEFIK_NETWORK: traefik
       TRAEFIK_HOST_OVERRIDE: localhost
+
+      LOG_LEVEL: DEBUG
+
+      OTEL_SERVICE_NAME: relay
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+
+      METRICS_ADDR: :9090
+
+      DOCKER_HOST: tcp://socket-proxy:2375
 
     healthcheck:
       test: ["CMD", "relay", "health"]
@@ -90,6 +124,7 @@ services:
 volumes:
   redis-data:
   relay-data:
+  prometheus-data:
 
 networks:
   traefik:

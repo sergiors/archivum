@@ -1,3 +1,5 @@
+runtime: python3.14
+
 services:
   - entrypoint: app/entrypoint.py
     port: 80

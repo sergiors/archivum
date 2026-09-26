@@ -1,5 +1,5 @@
 services:
-  - build: Dockerfile
+  - entrypoint: app/entrypoint.py
     port: 80
     replicas: 2
     host: archivum.sergio.run

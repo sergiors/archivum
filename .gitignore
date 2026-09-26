@@ -2,3 +2,5 @@
 .react-router/
 node_modules/
 build/
+
+.python-version

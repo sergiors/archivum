@@ -1,10 +1,6 @@
-import { ArchiveWorkspace } from "@/components/archive-workspace";
-import {
-  filterThreads,
-  getSource,
-  threadsForSource,
-} from "@/lib/data";
 import type { Route } from "./+types/route";
+
+import { filterThreads, getSource, threadsForSource } from "@/lib/data";
 
 /**
  * Threads section for a source: the day-grouped list beside whichever thread
@@ -26,19 +22,7 @@ export function loader({ request, params }: Route.LoaderArgs) {
   const q = url.searchParams.get("q")?.trim() ?? "";
   const threads = filterThreads(threadsForSource(source.id), q);
   const threadId = url.searchParams.get("thread");
-  const active =
-    threads.find((thread) => thread.id === threadId) ?? threads[0];
+  const active = threads.find((thread) => thread.id === threadId) ?? threads[0];
 
   return { source, threads, activeId: active?.id, q };
-}
-
-export default function SourceThreads({ loaderData }: Route.ComponentProps) {
-  return (
-    <ArchiveWorkspace
-      source={loaderData.source}
-      threads={loaderData.threads}
-      activeId={loaderData.activeId}
-      query={loaderData.q}
-    />
-  );
 }
